@@ -8,27 +8,33 @@
 package modelo;
 
 /**
- * CREATE TABLE policial
+CREATE TABLE deposito
 	(
-	id_policial			integer(10) not null,
-        nome				varchar(20) not null,
-        titulo				varchar(20) not null,
-        cep				varchar(15) not null,
+	id_deposito			integer(10) not null,
+        cep					varchar(15) not null,
         cidade				varchar(30) not null,
         bairro				varchar(30) not null,
         estado				varchar(2)  not null,
-	PRIMARY KEY (id_policial)
-	);
+        PRIMARY KEY (id_deposito)
+        );
  */
-public class Policial {
+public class Deposito {
     //Lista de atributos
-    private int id_policial;
-    private String nome;
-    private String titulo;
+    private int id_deposito;
     private String cep;
     private String cidade;
     private String bairro;
     private String estado;
+    
+    //Metodos get/set
+
+    public int getId_deposito() {
+        return id_deposito;
+    }
+
+    public void setId_deposito(int id_deposito) {
+        this.id_deposito = id_deposito;
+    }
 
     public String getCep() {
         return cep;
@@ -38,20 +44,20 @@ public class Policial {
         this.cep = cep;
     }
 
-        public String getBairro(){
-        return bairro;
-    }
-    
-    public void setBairro(String bairro){
-        this.bairro = bairro;
-    }
-    
     public String getCidade() {
         return cidade;
     }
 
     public void setCidade(String cidade) {
         this.cidade = cidade;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
     public String getEstado() {
@@ -62,28 +68,4 @@ public class Policial {
         this.estado = estado;
     }
     
-    //Métodos get/set
-    public int getId_policial() {
-        return id_policial;
-    }
-
-    public void setId_policial(int id_policial) {
-        this.id_policial = id_policial;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
 }

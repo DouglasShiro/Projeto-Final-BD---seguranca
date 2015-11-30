@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+            Projeto Final de Banco de Dados 2/2015
+Professora: Maristela Terto de Holanda
+Componentes:
+                Douglas Shiro Yokoyama      13/0024902
+                Marcelo Andre Winkler                 
+-->
+
+<web-app>
+    <servlet>
+        <servlet-name>controlador</servlet-name>
+        <servlet-class>controller.ServletController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>controlador</servlet-name>
+        <url-pattern>/segurancamvc</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list> 
+        <welcome-file>index.html</welcome-file> 
+        <welcome-file>index.htm</welcome-file> 
+        <welcome-file>index.jsp</welcome-file> 
+    </welcome-file-list>
+
+    <session-config>
+        <session-timeout>30</session-timeout> 
+    </session-config>
+</web-app>
