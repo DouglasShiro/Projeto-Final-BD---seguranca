@@ -28,7 +28,7 @@ CREATE TABLE telefone_policial
 CREATE TABLE categoria_delegacia
 	(
 		id_categoria		integer unsigned not null auto_increment,
-        nome				varchar(20) not null,
+        nome				varchar(100) not null,
         PRIMARY KEY (id_categoria)
         );
         
