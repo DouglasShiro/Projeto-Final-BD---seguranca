@@ -4,6 +4,26 @@ CREATE DATABASE segurança;
 
 USE segurança;
 
+CREATE TABLE categoria_delegacia
+	(
+		id_categoria		integer unsigned not null auto_increment,
+        nome				varchar(100) not null,
+        PRIMARY KEY (id_categoria)
+        );
+        
+CREATE TABLE delegacia
+	(
+        id_delegacia		integer unsigned not null auto_increment,
+        nome				varchar(100) not null,
+        cep					varchar(15) not null,
+        cidade				varchar(30) not null,
+        bairro				varchar(30) not null,
+        estado				varchar(2)  not null,
+        categoria			integer unsigned not null,
+        PRIMARY KEY (id_delegacia),
+        FOREIGN KEY (categoria) REFERENCES categoria_delegacia(id_categoria) ON DELETE CASCADE
+        );
+        
 CREATE TABLE policial
 	(
 		id_policial			integer unsigned not null auto_increment,
@@ -14,7 +34,9 @@ CREATE TABLE policial
         cidade				varchar(30) not null,
         bairro				varchar(30) not null,
         estado				varchar(2)  not null,
-		PRIMARY KEY (id_policial)
+        delegacia			integer unsigned not null,
+		PRIMARY KEY (id_policial),
+        FOREIGN KEY (delegacia) REFERENCES delegacia (id_delegacia) ON DELETE CASCADE
 		);
 
 CREATE TABLE telefone_policial
@@ -25,28 +47,6 @@ CREATE TABLE telefone_policial
         FOREIGN KEY (id_policial) REFERENCES policial(id_policial) ON DELETE CASCADE
         );
         
-CREATE TABLE categoria_delegacia
-	(
-		id_categoria		integer unsigned not null auto_increment,
-        nome				varchar(100) not null,
-        PRIMARY KEY (id_categoria)
-        );
-        
-CREATE TABLE delegacia
-	(
-		id_delegacia		integer unsigned not null auto_increment,
-        nome				varchar(20) not null,
-        cep					varchar(15) not null,
-        cidade				varchar(30) not null,
-        bairro				varchar(30) not null,
-        estado				varchar(2)  not null,
-        categoria			integer unsigned not null,
-        delegado			integer unsigned not null,
-        PRIMARY KEY (id_delegacia),
-        FOREIGN KEY (categoria) REFERENCES categoria_delegacia(id_categoria) ON DELETE CASCADE,
-        FOREIGN KEY (delegado) REFERENCES policial(id_policial) ON DELETE CASCADE
-        );
-
 CREATE TABLE telefone_delegacia
 	(
 		telefone			integer(10) not null,
@@ -58,11 +58,14 @@ CREATE TABLE telefone_delegacia
 CREATE TABLE deposito
 	(
 		id_deposito			integer unsigned not null auto_increment,
+        nome				varchar(100) not null,
+        chefe				integer unsigned not null,
         cep					varchar(15) not null,
         cidade				varchar(30) not null,
         bairro				varchar(30) not null,
         estado				varchar(2)  not null,
-        PRIMARY KEY (id_deposito)
+        PRIMARY KEY (id_deposito),
+        FOREIGN KEY (chefe) REFERENCES policial (id_policial)
         );
         
 CREATE TABLE categoria_item
@@ -80,7 +83,7 @@ CREATE TABLE item
         PRIMARY KEY (id_item),
         FOREIGN KEY (categoria) REFERENCES categoria_item(id_categoria) ON DELETE CASCADE
         );
-        
+
 CREATE TABLE historico_deposito
 	(
 		id_historico		integer unsigned not null auto_increment,
@@ -128,7 +131,7 @@ CREATE TABLE objeto_pessoal
         categoria			integer unsigned not null,
         PRIMARY KEY (id_obj_pessoal)
         );
-
+        
 CREATE TABLE categoria_imagem
 	(
 		id_categoria		integer unsigned not null auto_increment,
@@ -177,18 +180,41 @@ CREATE TABLE ocorrencia
         num_ocorrencia		integer(10) not null,
         observacao			varchar(100) not null,
         policial			integer unsigned not null,
-        vitima				integer unsigned not null,
-        infrator			integer unsigned,
         categoria			integer unsigned not null,
         bairro				integer unsigned not null,
         obj_pessoal			integer unsigned,
         PRIMARY KEY (id_ocorrencia),
         FOREIGN KEY (policial) REFERENCES policial(id_policial),
-        FOREIGN KEY (vitima) REFERENCES cidadao(id_cidadao),
-        FOREIGN KEY (infrator) REFERENCES cidadao(id_cidadao),
         FOREIGN KEY (categoria) REFERENCES categoria_ocorrencia(id_categoria),
         FOREIGN KEY (bairro) REFERENCES bairro(id_bairro),
         FOREIGN KEY (obj_pessoal) REFERENCES objeto_pessoal(id_obj_pessoal)
+        );
+        
+CREATE TABLE infrator
+	(
+		infrator			integer unsigned not null,
+        ocorrencia			integer unsigned not null,
+        PRIMARY KEY (infrator, ocorrencia),
+        FOREIGN KEY (infrator) REFERENCES cidadao(id_cidadao) ON DELETE CASCADE,
+        FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia) ON DELETE CASCADE
+        );
+
+CREATE TABLE vitima
+	(
+		vitima				integer unsigned not null,
+        ocorrencia			integer unsigned not null,
+        PRIMARY KEY (vitima, ocorrencia),
+        FOREIGN KEY (vitima) REFERENCES cidadao(id_cidadao) ON DELETE CASCADE,
+        FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia) ON DELETE CASCADE
+        );
+
+CREATE TABLE objeto_furtado
+	(
+		objeto				integer unsigned not null,
+        ocorrencia			integer unsigned not null,
+        PRIMARY KEY (objeto, ocorrencia), 
+        FOREIGN KEY (objeto) REFERENCES objeto_pessoal(id_obj_pessoal) ON DELETE CASCADE,
+        FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia) ON DELETE CASCADE
         );
         
 CREATE TABLE historico_ocorrencia
