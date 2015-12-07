@@ -100,8 +100,11 @@ CREATE TABLE historico_deposito
 CREATE TABLE cidadao
 	(
 		id_cidadao			integer unsigned not null auto_increment,
-        cpf					integer(11) not null,
-        nome				varchar(20) not null,
+        cpf					varchar(12) not null,
+        nome				varchar(50) not null,
+        sexo				varchar(1) not null,
+        estado_civil		varchar(30) not null,
+        data_nascimento		date not null,
         cep					varchar(15) not null,
         cidade				varchar(30) not null,
         bairro				varchar(30) not null,

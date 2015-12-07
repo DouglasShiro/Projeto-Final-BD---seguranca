@@ -104,16 +104,43 @@ values	('Fiat Palio Weekend', 1),
         ('Laptop Dell', 7);
 
 insert into historico_deposito (status_historico, deposito, item, quantidade, data_hora)
-values	('Entrada', 1, 1, '2 unidades', '2006/06/14 20:20:10');
+values	('Entrada', 1, 1, '2 unidades', '2006/06/14 20:20:10'),
+		('Entrada', 2, 3, '10 unidades', '2006/06/15 12:49:00'),
+		('Entrada', 3, 2, '500.000', '2005/04/09 10:12:11'),
+        ('Saida', 3, 2, '500.000,00', '2010/11/01 09:00:00'),
+        ('Entrada', 4, 4, '20 kilos', '2002/08/22 23:30:15'),
+        ('Saida', 5, 5, '10 unidades', '2001/01/19 10:51:40'),
+        ('Entrada', 5, 8, '300.000,00', '2005/08/14 20:20:10'),
+        ('Saida', 5, 6, '21 unidades', '2005/08/14 20:20:10'),
+        ('Entrada', 2, 9, '7 unidades', '2003/03/03 23:23:13');
 
+insert into cidadao (cpf, nome, sexo, estado_civil, data_nascimento,
+cep, cidade, bairro, estado)
+values	('039467971-32', 'Maria de Paula Fernandes', 'F', 'Casada', 
+		'1978/04/04', '70553-040', 'Brasilia', 'Taguatinga', 'DF'),
+        ('053732133-76', 'Igor Dantes Cardoso', 'M', 'Solteiro', 
+		'1977/07/22', '70322-050', 'Brasilia', 'Asa Norte', 'DF'),
+        ('095268138-95', 'Pamela dos Santos Orrico', 'F', 'Solteiro', 
+		'1989/02/14', '70341-010', 'Brasilia', 'Asa Norte', 'DF'),
+		('026966242-21', 'Marina Gasparini', 'F', 'Casada', 
+		'1973/05/11', '70498-030', 'Brasilia', 'Asa Sul', 'DF'),
+        ('012451134-58', 'Rafael Marques de Paula', 'M', 'Casado', 
+		'1975/11/29', '70498-030', 'Brasilia', 'Asa Sul', 'DF');
+
+        
 select * from policial;
+
 select * from telefone_policial;
+
 select * from categoria_delegacia;
+
 select * from deposito;
+
 select policial.nome as 'Chefe do deposito', policial.titulo as 'Titulo' 
 from deposito inner join policial 
 on deposito.chefe = policial.id_policial 
 and deposito.id_deposito = 1;
+
 select deposito.nome as 'Deposito',
 item.nome as 'Item', 
 historico_deposito.quantidade as 'Quantidade', 
@@ -121,4 +148,7 @@ historico_deposito.data_hora as 'Horario',
 historico_deposito.status_historico as 'Status'
 from historico_deposito inner join deposito inner join item 
 on historico_deposito.item = item.id_item 
-and historico_deposito.deposito = deposito.id_deposito;
+and historico_deposito.deposito = deposito.id_deposito 
+order by historico_deposito.data_hora;
+
+select * from cidadao;
