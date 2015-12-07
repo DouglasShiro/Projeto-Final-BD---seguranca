@@ -81,7 +81,31 @@ values	('Deposito de Evidencias', 3,'70521-010', 'Brasilia',
         'Lago Sul', 'DF'),
         ('Deposito de Carros de Planaltina', 10, '70671-010', 
         'Brasilia', 'Planaltina', 'DF');
+
+insert into categoria_item (nome)
+values	('Veiculo'),
+		('Substancia Entorpecente'),
+        ('Dinheiro'),
+        ('Arma de Fogo'),
+        ('Explosivo'),
+        ('Arma Branca'),
+        ('Dispositivo Movel'),
+        ('Objetos Pessoais');
         
+insert into item (nome, categoria)
+values	('Fiat Palio Weekend', 1),
+		('Reais', 3),
+        ('Pistola Calibre .45', 4),
+        ('Maconha', 2),
+        ('IPhone 6s', 7),
+        ('Granada', 5),
+        ('Katana Japonesa', 6),
+        ('Dolar', 3),
+        ('Laptop Dell', 7);
+
+insert into historico_deposito (status_historico, deposito, item, quantidade, data_hora)
+values	('Entrada', 1, 1, '2 unidades', '2006/06/14 20:20:10');
+
 select * from policial;
 select * from telefone_policial;
 select * from categoria_delegacia;
@@ -90,3 +114,11 @@ select policial.nome as 'Chefe do deposito', policial.titulo as 'Titulo'
 from deposito inner join policial 
 on deposito.chefe = policial.id_policial 
 and deposito.id_deposito = 1;
+select deposito.nome as 'Deposito',
+item.nome as 'Item', 
+historico_deposito.quantidade as 'Quantidade', 
+historico_deposito.data_hora as 'Horario',
+historico_deposito.status_historico as 'Status'
+from historico_deposito inner join deposito inner join item 
+on historico_deposito.item = item.id_item 
+and historico_deposito.deposito = deposito.id_deposito;

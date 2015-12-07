@@ -71,14 +71,14 @@ CREATE TABLE deposito
 CREATE TABLE categoria_item
 	(
 		id_categoria		integer unsigned not null auto_increment,
-        nome				varchar(20) not null,
+        nome				varchar(50) not null,
         PRIMARY KEY (id_categoria)
         );
 
 CREATE TABLE item
 	(
 		id_item				integer unsigned not null auto_increment,
-		nome				varchar(20) not null,
+		nome				varchar(50) not null,
         categoria			integer unsigned not null,
         PRIMARY KEY (id_item),
         FOREIGN KEY (categoria) REFERENCES categoria_item(id_categoria) ON DELETE CASCADE
@@ -90,6 +90,7 @@ CREATE TABLE historico_deposito
         status_historico	varchar(30) not null,
         deposito			integer unsigned not null,
         item				integer unsigned not null,
+        quantidade			varchar(20) not null,
         data_hora			datetime not null,
         PRIMARY KEY (id_historico),
         FOREIGN KEY (item) REFERENCES item(id_item) ON DELETE CASCADE,
