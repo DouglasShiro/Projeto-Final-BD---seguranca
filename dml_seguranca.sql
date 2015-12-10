@@ -153,10 +153,15 @@ insert into categoria_imagem (categoria)
 values	('JPEG de alta definição'),
 		('Bitmap de definição média'),
         ('Bitmap de baixa definição');
-        
-insert into imagem (foto, descricao, categoria)
-values	(load_file('C:/Users/Marcelo/Picture/asaNorte.jpg'),"Mapa indicando principais vias da asa", 1);
 
+-- É necessário alterar a permissão de acesso ao arquivo
+-- Para toda imagem inserida foi necessário alter sua permissão utilizando chmod 777
+insert into imagem (foto, descricao, categoria)
+values	(LOAD_FILE('/home/marcelo/Pictures/BD/asaNorte'),"Mapa indicando principais vias da asa norte", 1),
+		(LOAD_FILE('/home/marcelo/Pictures/BD/asaSul'),"Mapa indicando principais vias da asa sul", 1),
+		(LOAD_FILE('/home/marcelo/Pictures/BD/lagoSul'),"Mapa indicando principais vias da lago sul", 1);
+
+select * from imagem;
 
 select * from imagem;
 select foto from imagem;
@@ -209,26 +214,29 @@ select * from v_deposito;
 delimiter //
 CREATE PROCEDURE inserir_policial 
 	(
-		v_num_id				integer(10),
-        v_nome				varchar(20),
-        v_titulo				varchar(20),
-        v_cep					varchar(15),
-        v_cidade				varchar(30),
-        v_bairro				varchar(30),
-        v_estado				varchar(2),
-        v_delegacia			integer unsigned)
+		in v_num_id				integer(10),
+        in v_nome				varchar(20),
+        in v_titulo				varchar(20),
+        in v_cep					varchar(15),
+        in v_cidade				varchar(30),
+        in v_bairro				varchar(30),
+        in v_estado				varchar(2),
+        in v_delegacia			integer unsigned,
+		out msg					varchar(100))
 BEGIN
-	Declare msg varchar (100);
 	if(estado != 'DF') THEN
-		return select 'Somente policiais locais podem ser inscritos!' as msg;
+		set msg = 'Somente policiais locais podem ser inscritos!';
 	else
         insert into policial (num_id, nome, titulo, cep, cidade, bairro, estado, delegacia)
 		values (v_num_id, v_nome, v_titulo, v_cep, v_cidade, v_bairro, v_estado, v_delegacia);
 	end if;
 END//
-        
-call inserir_policial(1111,'Marcelo', 'Coronel', '70854-020', 'Brasilia', 'Asa Norte', 'GO', '1');
-select * from policial;
+
+Delimiter ;
+
+
+call inserir_policial(1111,'Marcelo', 'Coronel', '70854-020', 'Brasilia', 'Asa Norte', 'GO', 1, @msg);
+select @msg;
 
 select * from telefone_policial;
 
