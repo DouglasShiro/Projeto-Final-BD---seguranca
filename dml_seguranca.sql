@@ -206,11 +206,28 @@ FROM policial inner join deposito on policial.id_policial = deposito.chefe;
 
 select * from v_deposito;
 
-CREATE PROCEDURE inserir_telefone (telefone integer(10), id_policial integer unsigned)
-
-select * from v_deposito;
-
+delimiter //
+CREATE PROCEDURE inserir_policial 
+	(
+		v_num_id				integer(10),
+        v_nome				varchar(20),
+        v_titulo				varchar(20),
+        v_cep					varchar(15),
+        v_cidade				varchar(30),
+        v_bairro				varchar(30),
+        v_estado				varchar(2),
+        v_delegacia			integer unsigned)
+BEGIN
+	Declare msg varchar (100);
+	if(estado != 'DF') THEN
+		return select 'Somente policiais locais podem ser inscritos!' as msg;
+	else
+        insert into policial (num_id, nome, titulo, cep, cidade, bairro, estado, delegacia)
+		values (v_num_id, v_nome, v_titulo, v_cep, v_cidade, v_bairro, v_estado, v_delegacia);
+	end if;
+END//
         
+call inserir_policial(1111,'Marcelo', 'Coronel', '70854-020', 'Brasilia', 'Asa Norte', 'GO', '1');
 select * from policial;
 
 select * from telefone_policial;
