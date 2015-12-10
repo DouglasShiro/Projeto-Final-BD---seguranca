@@ -1,4 +1,4 @@
-insert into categoria_delegacia( nome)
+insert into categoria_delegacia(nome)
 values  ('Atendimento a Mulher'),
         ('Atendimento a Terceira Idade'),
         ('Policia Fazendaria'),
@@ -10,7 +10,7 @@ values  ('Atendimento a Mulher'),
         ('Roubos e Furtos de Automoveis'),
         ('Protecao a Infancia e Adolescencia');
 
-insert into delegacia ( nome, cep, cidade, bairro, estado, categoria)
+insert into delegacia (nome, cep, cidade, bairro, estado, categoria)
 values  ('06 DP - Taguatinga', '70531-010', 'Brasilia',
                 'Taguatinga', 'DF', 9),
         ('02 DP - Asa Norte', '70344-010', 'Brasilia',
@@ -26,9 +26,7 @@ values  ('06 DP - Taguatinga', '70531-010', 'Brasilia',
         ('DPCA - Delegacia de Protecao a Crianca e ao Adolescente',
         '70829-010', 'Brasilia', 'Guara', 'DF', 10);
 
-
-insert into policial 	(num_id, nome, titulo, cep,  
-						cidade, bairro, estado, delegacia)
+insert into policial 	(num_id, nome, titulo, cep, cidade, bairro, estado, delegacia)
 values	(1111111, 'Patricia Pimenta', 'Capitao', '70321-010', 
 		'Brasilia', 'Asa Norte', 'DF', 2),
         (2222222, 'Arthur Silva', 'Major', '70451-020',
@@ -83,9 +81,6 @@ values  ( 'Asa Norte', 1, null),
         ( 'Asa Sul', 2, null),
         ( 'Lago Sul', 3, null);
 
---insert into imagem ()
---values  ()
-
 insert into categoria_objeto_pessoal (nome)
 values  ('Vestuário'),
         ('Dinheiro'),
@@ -106,10 +101,8 @@ values  ('Deposito de Evidencias', 3,'70521-010', 'Brasilia', 'Taguatinga', 'DF'
         ('Deposito Policial Lago Sul', 6, '70109-010', 'Brasilia', 'Lago Sul', 'DF'),
         ('Deposito de Carros de Planaltina', 10, '70671-010', 'Brasilia', 'Planaltina', 'DF');
 
-
-
-select po.nome,
-                de.nome,
+select  po.nome,
+        de.nome,
         cd.nome
 
 from policial po, delegacia de, categoria_delegacia cd
