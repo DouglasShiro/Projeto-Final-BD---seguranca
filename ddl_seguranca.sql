@@ -1,6 +1,6 @@
-DROP DATABASE segurança;
+DROP DATABASE seguranca;
 
-CREATE DATABASE segurança;
+CREATE DATABASE seguranca;
 
 USE segurança;
 
