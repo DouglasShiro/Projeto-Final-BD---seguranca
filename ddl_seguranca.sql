@@ -149,7 +149,7 @@ CREATE TABLE categoria_imagem
 CREATE TABLE imagem
 	(
 		id_imagem			integer unsigned not null auto_increment,
-        foto				longblob not null,
+        foto				longblob,
         descricao			varchar(100) not null,
         categoria			integer unsigned,
         PRIMARY KEY (id_imagem),

@@ -133,13 +133,64 @@ values	('039467971-32', 'Maria de Paula Fernandes', 'F', 'Casada',
 
 insert into telefone_cidadao (telefone, id_cidadao)
 values	(92557898, 01),
-		(92557898, 01),
-        (92557898, 01),
-        (92557898, 01),
-        (92557898, 01);
-		
-insert into ocorrencia 
+		(94823478, 02),
+        (83471738, 03),
+        (88472728, 04),
+        (81223458, 05);
 
+insert into categoria_objeto_pessoal (nome)
+values	('Carteira'),
+		('Vestuário'),
+        ('Veículo'),
+        ('Documento');
+        
+insert into objeto_pessoal (nome, descricao, categoria)
+values	('Camiseta polo', 'Camiseta vermelha com logo azul de marca', 2),
+		('Palio Uno', 'Carro branco, placa: TES 5050 e de ano 2012', 3),
+        ('Carteira', 'Carteira italiana de cor preta', 1);
+
+insert into categoria_imagem (categoria)
+values	('JPEG de alta definição'),
+		('Bitmap de definição média'),
+        ('Bitmap de baixa definição');
+        
+insert into imagem (foto, descricao, categoria)
+values	(load_file('C:/Users/Marcelo/Picture/asaNorte.jpg'),"Mapa indicando principais vias da asa", 1);
+
+
+select * from imagem;
+select foto from imagem;
+
+insert into categoria_seguranca (nivel)
+values	('Seguro'),
+		('Pouco seguro'),
+		('Nada seguro');
+
+insert into bairro (nome, categoria_seg, imagem)
+values	('Asa Sul', 2, 1),
+		('Asa Norte', 1, 1),
+        ('Lago Sul', 3, 1);
+
+insert into categoria_ocorrencia (nome)
+values	('Acidente'),
+		('Furto'),
+        ('Sequestro');
+
+insert into ocorrencia (num_ocorrencia, observacao, policial, categoria, bairro, obj_pessoal)
+values	(1111111111, 'Ocorrencia sobre furto de veículos na Asa Norte às 20h', 1, 2, 2, 3),
+		(2222222222, 'Ocorrencia sobre acidente na Asa Sul às 23h', 2, 1, 1, null),
+        
+
+
+CREATE VIEW v_deposito
+AS SELECT policial.nome as 'Chefe do deposito', policial.titulo as 'Titulo', deposito.nome as 'Deposito'
+FROM policial inner join deposito on policial.id_policial = deposito.chefe;
+
+select * from v_deposito;
+
+CREATE PROCEDURE inserir_telefone (telefone integer(10), nome 
+
+select * from v_deposito;
 
         
 select * from policial;
