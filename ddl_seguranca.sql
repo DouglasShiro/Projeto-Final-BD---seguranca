@@ -2,7 +2,7 @@ DROP DATABASE seguranca;
 
 CREATE DATABASE seguranca;
 
-USE segurança;
+USE seguranca;
 
 CREATE TABLE categoria_delegacia
 	(
@@ -134,8 +134,9 @@ CREATE TABLE objeto_pessoal
 		id_obj_pessoal		integer unsigned not null auto_increment,
         nome				varchar(20) not null,
         descricao			varchar(100) not null,
-        categoria			integer unsigned not null,
-        PRIMARY KEY (id_obj_pessoal)
+        categoria			integer unsigned,
+        PRIMARY KEY (id_obj_pessoal),
+        FOREIGN KEY (categoria) REFERENCES categoria_objeto_pessoal(id_categoria) ON DELETE SET NULL
         );
         
 CREATE TABLE categoria_imagem
