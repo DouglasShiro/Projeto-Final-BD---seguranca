@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Douglas/Documents/NetBeansProjects/projeto_final_BD/src/java/modelo/ServletInserirPolicial.java</file>
-            <file>file:/C:/Users/Douglas/Documents/NetBeansProjects/projeto_final_BD/build/web/inserirdelegacia.jsp</file>
-            <file>file:/C:/Users/Douglas/Documents/NetBeansProjects/projeto_final_BD/src/java/controller/ServletController.java</file>
-            <file>file:/C:/Users/Douglas/Documents/NetBeansProjects/projeto_final_BD/build/web/inserirpolicial.jsp</file>
-            <file>file:/C:/Users/Douglas/Documents/NetBeansProjects/projeto_final_BD/build/web/index.html</file>
-            <file>file:/C:/Users/Douglas/Documents/NetBeansProjects/projeto_final_BD/src/java/modelo/ServletInserirDelegacia.java</file>
-            <file>file:/C:/Users/Douglas/Documents/NetBeansProjects/projeto_final_BD/build/web/inserido.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

@@ -11,5 +11,4 @@ import javax.servlet.http.*;
 
 public interface Execucao {
     void executar(HttpServletRequest req, HttpServletResponse res) throws Exception;
-
 }
