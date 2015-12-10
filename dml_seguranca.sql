@@ -177,9 +177,27 @@ values	('Acidente'),
         ('Sequestro');
 
 insert into ocorrencia (num_ocorrencia, observacao, policial, categoria, bairro, obj_pessoal)
-values	(1111111111, 'Ocorrencia sobre furto de veículos na Asa Norte às 20h', 1, 2, 2, 3),
-		(2222222222, 'Ocorrencia sobre acidente na Asa Sul às 23h', 2, 1, 1, null),
-        
+values	(1111111, 'Ocorrencia sobre furto de veículos às 20h', 1, 2, 2, 3),
+		(2222222, 'Ocorrencia sobre acidente às 23h', 2, 1, 1, null),
+        (3333333, 'Ocorrencia sobre sequestro às 10h', 3, 3, 3, null);
+
+insert into infrator (infrator, ocorrencia)
+values	(1,1),
+		(2,2),
+        (3,3);
+
+insert into vitima (vitima, ocorrencia)
+values (4, 1),
+	   (5, 2),
+       (1, 3);
+       
+insert into objeto_furtado (objeto, ocorrencia)
+values	(3, 1);
+
+insert into historico_ocorrencia (observacao, data_hora, ocorrencia)
+values	('Primeiro registro da noite', '2005/04/09 10:12:11', 1),
+		('Vitima abalada e inconsolável', '2006/09/11 15:22:10', 2),
+        ('Infrator foi solto logo em seguida', '2005/04/09 10:12:11', 3);
 
 
 CREATE VIEW v_deposito
@@ -188,7 +206,7 @@ FROM policial inner join deposito on policial.id_policial = deposito.chefe;
 
 select * from v_deposito;
 
-CREATE PROCEDURE inserir_telefone (telefone integer(10), nome 
+CREATE PROCEDURE inserir_telefone (telefone integer(10), id_policial integer unsigned)
 
 select * from v_deposito;
 
@@ -201,10 +219,11 @@ select * from categoria_delegacia;
 
 select * from deposito;
 
-select policial.nome as 'Chefe do deposito', policial.titulo as 'Titulo' 
-from deposito inner join policial 
+select policial.nome as 'Chefe do deposito', policial.titulo as 'Titulo', telefone_policial.telefone
+from deposito inner join policial inner join telefone_policial
 on deposito.chefe = policial.id_policial 
-and deposito.id_deposito = 1;
+and deposito.id_deposito = 1
+and policial.id_policial = telefone_policial.id_policial;
 
 select deposito.nome as 'Deposito',
 item.nome as 'Item', 
@@ -215,5 +234,7 @@ from historico_deposito inner join deposito inner join item
 on historico_deposito.item = item.id_item 
 and historico_deposito.deposito = deposito.id_deposito 
 order by historico_deposito.data_hora;
+
+
 
 select * from cidadao;
