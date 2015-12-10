@@ -26,6 +26,10 @@ values	('06 DP - Taguatinga', '70531-010', 'Brasilia',
         ('DPCA - Delegacia de Protecao a Crianca e ao Adolescente',
         '70829-010', 'Brasilia', 'Guara', 'DF', 10);
         
+select * from categoria_delegacia;
+delete from categoria_delegacia where id_categoria = 1;
+select * from delegacia;
+        
 insert into policial 	(num_id, nome, titulo, cep,  
 						cidade, bairro, estado, delegacia)
 values	(1111111, 'Patricia Pimenta', 'Capitao', '70321-010', 
@@ -126,6 +130,16 @@ values	('039467971-32', 'Maria de Paula Fernandes', 'F', 'Casada',
 		'1973/05/11', '70498-030', 'Brasilia', 'Asa Sul', 'DF'),
         ('012451134-58', 'Rafael Marques de Paula', 'M', 'Casado', 
 		'1975/11/29', '70498-030', 'Brasilia', 'Asa Sul', 'DF');
+
+insert into telefone_cidadao (telefone, id_cidadao)
+values	(92557898, 01),
+		(92557898, 01),
+        (92557898, 01),
+        (92557898, 01),
+        (92557898, 01);
+		
+insert into ocorrencia 
+
 
         
 select * from policial;

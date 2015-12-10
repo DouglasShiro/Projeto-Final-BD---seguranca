@@ -19,9 +19,9 @@ CREATE TABLE delegacia
         cidade				varchar(30) not null,
         bairro				varchar(30) not null,
         estado				varchar(2)  not null,
-        categoria			integer unsigned not null,
+        categoria			integer unsigned,
         PRIMARY KEY (id_delegacia),
-        FOREIGN KEY (categoria) REFERENCES categoria_delegacia(id_categoria) ON DELETE CASCADE
+        FOREIGN KEY (categoria) REFERENCES categoria_delegacia(id_categoria) ON DELETE SET NULL
         );
         
 CREATE TABLE policial
@@ -34,7 +34,7 @@ CREATE TABLE policial
         cidade				varchar(30) not null,
         bairro				varchar(30) not null,
         estado				varchar(2)  not null,
-        delegacia			integer unsigned not null,
+        delegacia			integer unsigned,
 		PRIMARY KEY (id_policial),
         FOREIGN KEY (delegacia) REFERENCES delegacia (id_delegacia) ON DELETE CASCADE
 		);
@@ -59,13 +59,15 @@ CREATE TABLE deposito
 	(
 		id_deposito			integer unsigned not null auto_increment,
         nome				varchar(100) not null,
-        chefe				integer unsigned not null,
+        chefe				integer unsigned,
         cep					varchar(15) not null,
         cidade				varchar(30) not null,
         bairro				varchar(30) not null,
         estado				varchar(2)  not null,
+        delegacia			integer unsigned,
         PRIMARY KEY (id_deposito),
-        FOREIGN KEY (chefe) REFERENCES policial (id_policial)
+        FOREIGN KEY (delegacia) REFERENCES delegacia (id_delegacia) ON DELETE SET NULL,
+        FOREIGN KEY (chefe) REFERENCES policial (id_policial) ON DELETE SET NULL
         );
         
 CREATE TABLE categoria_item
@@ -79,9 +81,9 @@ CREATE TABLE item
 	(
 		id_item				integer unsigned not null auto_increment,
 		nome				varchar(50) not null,
-        categoria			integer unsigned not null,
+        categoria			integer unsigned,
         PRIMARY KEY (id_item),
-        FOREIGN KEY (categoria) REFERENCES categoria_item(id_categoria) ON DELETE CASCADE
+        FOREIGN KEY (categoria) REFERENCES categoria_item(id_categoria) ON DELETE SET NULL
         );
 
 CREATE TABLE historico_deposito
@@ -148,9 +150,9 @@ CREATE TABLE imagem
 		id_imagem			integer unsigned not null auto_increment,
         foto				longblob not null,
         descricao			varchar(100) not null,
-        categoria			integer unsigned not null,
+        categoria			integer unsigned,
         PRIMARY KEY (id_imagem),
-        FOREIGN KEY (categoria) REFERENCES categoria_imagem(id_categoria)
+        FOREIGN KEY (categoria) REFERENCES categoria_imagem(id_categoria) ON DELETE SET NULL
         );
         
 CREATE TABLE categoria_seguranca
@@ -164,11 +166,11 @@ CREATE TABLE bairro
 	(
 		id_bairro			integer unsigned not null auto_increment,
         nome				varchar(20) not null,
-        categoria_seg		integer unsigned not null,
-        imagem				integer unsigned not null,
+        categoria_seg		integer unsigned,
+        imagem				integer unsigned,
         PRIMARY KEY (id_bairro),
-        FOREIGN KEY (categoria_seg) REFERENCES categoria_seguranca(id_categoria),
-        FOREIGN KEY (imagem) REFERENCES imagem(id_imagem)
+        FOREIGN KEY (categoria_seg) REFERENCES categoria_seguranca(id_categoria) ON DELETE SET NULL,
+        FOREIGN KEY (imagem) REFERENCES imagem(id_imagem) ON DELETE SET NULL
         );
         
 CREATE TABLE categoria_ocorrencia
@@ -188,10 +190,10 @@ CREATE TABLE ocorrencia
         bairro				integer unsigned not null,
         obj_pessoal			integer unsigned,
         PRIMARY KEY (id_ocorrencia),
-        FOREIGN KEY (policial) REFERENCES policial(id_policial),
-        FOREIGN KEY (categoria) REFERENCES categoria_ocorrencia(id_categoria),
-        FOREIGN KEY (bairro) REFERENCES bairro(id_bairro),
-        FOREIGN KEY (obj_pessoal) REFERENCES objeto_pessoal(id_obj_pessoal)
+        FOREIGN KEY (policial) REFERENCES policial(id_policial) ON DELETE RESTRICT,
+        FOREIGN KEY (categoria) REFERENCES categoria_ocorrencia(id_categoria) ON DELETE RESTRICT,
+        FOREIGN KEY (bairro) REFERENCES bairro(id_bairro) ON DELETE RESTRICT,
+        FOREIGN KEY (obj_pessoal) REFERENCES objeto_pessoal(id_obj_pessoal) ON DELETE RESTRICT
         );
         
 CREATE TABLE infrator
@@ -202,6 +204,10 @@ CREATE TABLE infrator
         FOREIGN KEY (infrator) REFERENCES cidadao(id_cidadao) ON DELETE CASCADE,
         FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia) ON DELETE CASCADE
         );
+        
+ALTER TABLE ocorrencia
+	ADD COLUMN infrator integer unsigned, 
+    ADD FOREIGN KEY (infrator) REFERENCES infrator(infrator) ON DELETE SET NULL;
 
 CREATE TABLE vitima
 	(
@@ -211,6 +217,10 @@ CREATE TABLE vitima
         FOREIGN KEY (vitima) REFERENCES cidadao(id_cidadao) ON DELETE CASCADE,
         FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia) ON DELETE CASCADE
         );
+        
+ALTER TABLE ocorrencia
+	ADD COLUMN vitima integer unsigned, 
+    ADD FOREIGN KEY (vitima) REFERENCES vitima(vitima) ON DELETE SET NULL;
 
 CREATE TABLE objeto_furtado
 	(
@@ -228,7 +238,7 @@ CREATE TABLE historico_ocorrencia
         data_hora			datetime not null,
         ocorrencia			integer unsigned not null,
         PRIMARY KEY (id_historico),
-        FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia)
+        FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia) ON DELETE CASCADE
         );
         
 		
