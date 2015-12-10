@@ -7,7 +7,7 @@
  */
 package modelo;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+//import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 
 /**
 CREATE TABLE historico_deposito
@@ -28,7 +28,7 @@ public class HistoricoDeposito {
     private String status_historico;
     private int deposito;
     private int item;
-    private date data_hora;
+    private String data_hora;
     
     //Metodos get/set
 
@@ -64,12 +64,11 @@ public class HistoricoDeposito {
         this.item = item;
     }
 
-    public date getData_hora() {
+    public String getData_hora() {
         return data_hora;
     }
 
-    public void setData_hora(date data_hora) {
+    public void setData_hora(String data_hora) {
         this.data_hora = data_hora;
-    }
-    
+    }    
 }
