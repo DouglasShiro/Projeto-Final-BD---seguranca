@@ -60,8 +60,12 @@ public class Aplicacao_seguranca {
     private static String estadoCidadao;
     
     /*variaveis cadastro ocorrencia*/
-    //
-    
+    private static int id_ocorrencia = 0; 
+    private static int num_ocorrencia = 0;
+    private static String observacaoOcorrencia;
+    private static int policialOcorrencia = 0;
+    private static int categoriaOcorrencia = 0;
+    private static int bairroOcorrencia = 0;
 
     
 
@@ -347,10 +351,6 @@ public class Aplicacao_seguranca {
                     break;
 
                 case 3:
-                    /*
-                    Ocorrencia ocorrencia = new Ocorrencia();
-                    OcorrenciaDAO oDAO = new OcorrenciaDAO();
-                    */
                     while (sairOcorrencia == 0){
                         System.out.println("\t\t-----------------------------------------------------------");
                         System.out.println("\t\t                Menu de Ocorrencia");
@@ -360,33 +360,110 @@ public class Aplicacao_seguranca {
                         System.out.println("\t\t 3.Excluir ocorrencia");
                         System.out.println("\t\t 4.Ver lista de ocorrencias");
                         System.out.println("\t\t 5.Sair do menu de ocorrencia");
-                        menuPolicial = scan.nextInt();
-                        
+                        menuOcorrencia = scan.nextInt();
+                    
+                        Ocorrencia ocorrencia = new Ocorrencia();
+                        OcorrenciaDAO oDAO = new OcorrenciaDAO();
+                    
                         switch (menuOcorrencia)
                         {
                             case 1:
-                                    
+
+                                System.out.println("\t\tInsira os dados a serem cadastrados");
+                                System.out.println("\t\tNumero Ocorrencia:");
+                                num_ocorrencia = scan.nextInt();
+                                System.out.println("\t\tObservacao:");
+                                observacaoOcorrencia = scan.nextLine();
+                                observacaoOcorrencia = scan.nextLine();
+                                System.out.println("\t\tPolicial:");
+                                policialOcorrencia = scan.nextInt();
+                                System.out.println("\t\tCategoria: ");
+                                categoriaOcorrencia = scan.nextInt();
+                                System.out.println("\t\tBairro:");
+                                bairroOcorrencia = scan.nextInt();
+                                
+                                ocorrencia.setNum_ocorrencia(num_ocorrencia);
+                                ocorrencia.setObservacao(observacaoOcorrencia);
+                                ocorrencia.setPolicial(policialOcorrencia);
+                                ocorrencia.setCategoria(categoriaOcorrencia);
+                                ocorrencia.setBairro(bairroOcorrencia);
+                                
+                                oDAO.inserir(ocorrencia);
+                                
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
                                 break;
+
                             case 2:
+                                System.out.println("\t\tInsira os dados a serem alterados");
+                                System.out.println("\t\tNumero Ocorrencia:");
+                                num_ocorrencia = scan.nextInt();
+                                System.out.println("\t\tObservacao:");
+                                observacaoOcorrencia = scan.nextLine();
+                                observacaoOcorrencia = scan.nextLine();
+                                System.out.println("\t\tPolicial:");
+                                policialOcorrencia = scan.nextInt();
+                                System.out.println("\t\tCategoria: ");
+                                categoriaOcorrencia = scan.nextInt();
+                                System.out.println("\t\tBairro:");
+                                bairroOcorrencia = scan.nextInt();
+                                System.out.println("\t\tId da Ocorrencia:");
+                                id_ocorrencia = scan.nextInt();
+                                
+                                ocorrencia.setNum_ocorrencia(num_ocorrencia);
+                                ocorrencia.setObservacao(observacaoOcorrencia);
+                                ocorrencia.setPolicial(policialOcorrencia);
+                                ocorrencia.setCategoria(categoriaOcorrencia);
+                                ocorrencia.setBairro(bairroOcorrencia);
+                                ocorrencia.setId_ocorrencia(id_ocorrencia);
+                                
+                                oDAO.alterar(ocorrencia);
 
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
 
                                 break;
+
                             case 3:
+                                System.out.println("Exclusao de dados, insira a Id da ocorrencia para retirar seu cadastro da base de dados.");
+                                System.out.println("Id: ");
+                                id_ocorrencia = scan.nextInt();
+
+                                ocorrencia.setId_ocorrencia(id_ocorrencia);
+
+                                oDAO.excluir(ocorrencia);
+
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
 
                                 break;
+
                             case 4:
+                                System.out.println("Impressao das ocorrencias cadastradas no sistema");
+                                List<Ocorrencia> ocorrencias = new ArrayList<>();
+
+                                ocorrencias = oDAO.getLista();
+                                System.out.println("Id ocorrencia\tNumero Ocorrencia\tObservacao\tPolicial\tCategoria\tBairro");
+                                for (int i = 0; i < ocorrencias.size(); i++) {
+                                      ocorrencia = ocorrencias.get(i);
+                                      System.out.println(ocorrencia.getId_ocorrencia()+"\t|"+ocorrencia.getNum_ocorrencia()+"\t\t|"+ocorrencia.getObservacao()+"\t|"+ocorrencia.getPolicial()+"\t|"+ocorrencia.getCategoria()+"\t|"+ocorrencia.getBairro());
+                                }
+                                espera = scan.nextLine();
+
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
 
                                 break;
-
-
                             case 5:
                                 sairOcorrencia = 1;
                                 break;
                         }
                     }
+                        
+                    break;
+                case 4:
                     
                     break;
-             
                 case 5:
                     sair = 1;    
                     break;

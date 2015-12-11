@@ -3,7 +3,7 @@
  * Professora: Maristela Terto de Holanda
  * Componentes:
  *                 Douglas Shiro Yokoyama      13/0024902
- *                 Marcelo Andre Winkler                 
+ *                 Marcelo Andre Winkler       10/0113681          
  */
 package persistencia;
 
@@ -21,55 +21,49 @@ public class OcorrenciaDAO {
     }
     
     public void inserir(Ocorrencia ocorrencia){
-        String sql = "insert into ocorrencia (cpf, nome, sexo, estado_civil, data_nascimento, cep, cidade, bairro, estado) "
-                   + "values(?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into ocorrencia (num_ocorrencia, observacao, policial, categoria, bairro) "
+                   + "values(?,?,?,?,?)";
         try{
-            PreparedStatement p = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
             
-            p.setString(1, ocorrencia.getCpf());
-            p.setString(2, ocorrencia.getNome());
-            p.setString(3, ocorrencia.getSexo());
-            p.setString(4, ocorrencia.getEstado_civil());
-            p.setString(5, ocorrencia.getData_nascimento());
-            p.setString(6, ocorrencia.getCep());
-            p.setString(7, ocorrencia.getCidade());
-            p.setString(8, ocorrencia.getBairro());
-            p.setString(9, ocorrencia.getEstado());
+            ps.setInt(1, ocorrencia.getNum_ocorrencia());
+            ps.setString(2, ocorrencia.getObservacao());
+            ps.setInt(3, ocorrencia.getPolicial());
+            ps.setInt(4, ocorrencia.getCategoria());
+            ps.setInt(5, ocorrencia.getBairro());
             
-            p.execute();
+            ps.execute();
 
             con.close();
             
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
-        System.out.println("Ocorrencia Gravado!");
+        System.out.println("Ocorrencia Gravada!");
     }
     
     public void alterar(Ocorrencia ocorrencia){
-    String sql = "update ocorrencia set cpf=?, nome=?, sexo=?, estado_civil=?, data_nascimento=?, cep=?, cidade=?, bairro=?, estado=?, delegacia=? where id_ocorrencia=?";
-    try{
-        PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "update ocorrencia set num_ocorrencia=?, observacao=?, policial=?, categoria=?, bairro=?"
+                    + "where id_ocorrencia=?";
 
-        ps.setString(1, ocorrencia.getCpf());
-        ps.setString(2, ocorrencia.getNome());
-        ps.setString(3, ocorrencia.getSexo());
-        ps.setString(4, ocorrencia.getEstado_civil());
-        ps.setString(5, ocorrencia.getData_nascimento());
-        ps.setString(6, ocorrencia.getCep());
-        ps.setString(7, ocorrencia.getCidade());
-        ps.setString(8, ocorrencia.getBairro());
-        ps.setString(9, ocorrencia.getEstado());
-        ps.setInt(10, ocorrencia.getId_ocorrencia());
-        
-        ps.execute();
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
 
-        con.close();
+            ps.setInt(1, ocorrencia.getNum_ocorrencia());
+            ps.setString(2, ocorrencia.getObservacao());
+            ps.setInt(3, ocorrencia.getPolicial());
+            ps.setInt(4, ocorrencia.getCategoria());
+            ps.setInt(5, ocorrencia.getBairro());
+            ps.setInt(6, ocorrencia.getId_ocorrencia());
 
-    }catch(SQLException e){
-        throw new RuntimeException(e);
-    }
-    System.out.println("Ocorrencia Alterado!");
+            ps.execute();
+
+            con.close();
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        System.out.println("Ocorrencia Alterada!");
     }
     
     public void excluir(Ocorrencia ocorrencia){
@@ -86,7 +80,7 @@ public class OcorrenciaDAO {
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
-        System.out.println("Excluido!");
+        System.out.println("Ocorrencia Excluida!");
     }
 
     public List<Ocorrencia> getLista(){
@@ -95,7 +89,6 @@ public class OcorrenciaDAO {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-
                 
             if(rs == null){
                 return null;
@@ -103,19 +96,15 @@ public class OcorrenciaDAO {
 
             while(rs.next()){
                 
-                Ocorrencia c = new Ocorrencia();
-                c.setId_ocorrencia(rs.getInt(1));
-                c.setCpf(rs.getString(2));
-                c.setNome(rs.getString(3));
-                c.setSexo(rs.getString(4));
-                c.setEstado_civil(rs.getString(5));
-                c.setData_nascimento(rs.getString(6));
-                c.setCep(rs.getString(7));
-                c.setCidade(rs.getString(8));
-                c.setBairro(rs.getString(9));
-                c.setEstado(rs.getString(10));
+                Ocorrencia o = new Ocorrencia();
+                o.setId_ocorrencia(rs.getInt(1));
+                o.setNum_ocorrencia(rs.getInt(2));
+                o.setObservacao(rs.getString(3));
+                o.setPolicial(rs.getInt(4));
+                o.setCategoria(rs.getInt(5));
+                o.setBairro(rs.getInt(6));
                 
-                ocorrencias.add(c);
+                ocorrencias.add(o);
             }
             return ocorrencias;
 

@@ -3,7 +3,7 @@
  * Professora: Maristela Terto de Holanda
  * Componentes:
  *                 Douglas Shiro Yokoyama      13/0024902
- *                 Marcelo Andre Winkler                 
+ *                 Marcelo Andre Winkler       10/0113681          
  */
 package persistencia;
 
@@ -46,7 +46,8 @@ public class PolicialDAO {
     }
     
     public void alterar(Policial policial){
-    String sql = "update policial set num_id=?, nome=?,titulo=?,cep=?,cidade=?,bairro=?,estado=?,delegacia=? where id_policial=?";
+    String sql = "update policial set num_id=?, nome=?,titulo=?,cep=?,cidade=?,bairro=?,estado=?,delegacia=? "
+                + "where id_policial=?";
     try{
         PreparedStatement ps = con.prepareStatement(sql);
 

@@ -3,7 +3,7 @@
  * Professora: Maristela Terto de Holanda
  * Componentes:
  *                 Douglas Shiro Yokoyama      13/0024902
- *                 Marcelo Andre Winkler                 
+ *                 Marcelo Andre Winkler       10/0113681          
  */
 package modelo;
 /**
@@ -26,18 +26,60 @@ package modelo;
 public class Ocorrencia {
     //Lista de atributos
     private int id_ocorrencia;
-    private String cpf;
-    private String nome;
-    private String sexo;
-    private String estado_civil;
-    private String data_nascimento;
-    private String cep;
-    private String cidade;
-    private String bairro;
-    private String estado;
+    private int num_ocorrencia;
+    private String observacao;
+    private int policial;
+    private int categoria;
+    private int bairro;
     
     //Metodos get/set
 
- 
-   
+    public int getId_ocorrencia() {
+        return id_ocorrencia;
+    }
+
+    public void setId_ocorrencia(int id_ocorrencia) {
+        this.id_ocorrencia = id_ocorrencia;
+    }
+
+    public int getNum_ocorrencia() {
+        return num_ocorrencia;
+    }
+
+    public void setNum_ocorrencia(int num_ocorrencia) {
+        this.num_ocorrencia = num_ocorrencia;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public int getPolicial() {
+        return policial;
+    }
+
+    public void setPolicial(int policial) {
+        this.policial = policial;
+    }
+
+    public int getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(int categoria) {
+        this.categoria = categoria;
+    }
+
+    public int getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(int bairro) {
+        this.bairro = bairro;
+    }
+
 }
