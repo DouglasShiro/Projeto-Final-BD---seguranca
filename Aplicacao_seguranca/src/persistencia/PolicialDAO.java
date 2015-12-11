@@ -8,64 +8,70 @@
 package persistencia;
 
 import java.sql.*;
-import java.util.logging.*;
 import java.util.*;
-import modelo.Deposito;
 
 import modelo.Policial;
 
 public class PolicialDAO {
     private Connection con;
     public PolicialDAO(){
-        try {
-            this.con = new ConnectionFactory().getConnection();
-        }catch (Exception ex){
-            Logger.getLogger(PolicialDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        this.con = new ConnectionFactory().getConnection();
+        
     }
     
     public void inserir(Policial policial){
-        String sql = "insert into policial (id_policial, nome, titulo, cep, cidade, bairro, estado) values(?,?,?,?,?,?,?)";
-        
+        String sql = "insert into policial (num_id, nome, titulo, cep, cidade, bairro, estado, delegacia) "
+                   + "values(?,?,?,?,?,?,?,?)";
         try{
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement p = con.prepareStatement(sql);
             
-            ps.setInt(1, policial.getId_policial());
-            ps.setString(2, policial.getNome());
-            ps.setString(3, policial.getTitulo());
-            ps.setString(4, policial.getCep());
-            ps.setString(5, policial.getCidade());
-            ps.setString(6, policial.getBairro());
-            ps.setString(7, policial.getEstado());
+            p.setInt(1, policial.getNum_id());
+            p.setString(2, policial.getNome());
+            p.setString(3, policial.getTitulo());
+            p.setString(4, policial.getCep());
+            p.setString(5, policial.getCidade());
+            p.setString(6, policial.getBairro());
+            p.setString(7, policial.getEstado());
+            p.setInt(8, policial.getDelegacia());
+            
+            p.execute();
 
-            ps.execute();
-
-            ps.close();
+            con.close();
             
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
+        System.out.println("Policial Gravado!");
     }
     
-    public void alterar(Deposito deposito){
-    String sql = "update deposito set telefone=? where id_deposito=?";
+    public void alterar(Policial policial){
+    String sql = "update policial set num_id=?, nome=?,titulo=?,cep=?,cidade=?,bairro=?,estado=?,delegacia=? where id_policial=?";
     try{
         PreparedStatement ps = con.prepareStatement(sql);
 
-        ps.setInt(1, deposito.getChefe());
-        ps.setInt(2, deposito.getId_deposito());
+        ps.setInt(1, policial.getNum_id());
+        ps.setString(2, policial.getNome());
+        ps.setString(3, policial.getTitulo());
+        ps.setString(4, policial.getCep());
+        ps.setString(5, policial.getCidade());
+        ps.setString(6, policial.getBairro());
+        ps.setString(7, policial.getEstado());
+        ps.setInt(8, policial.getDelegacia());
+        ps.setInt(9, policial.getId_policial());
 
         ps.execute();
 
-        ps.close();
+        con.close();
 
     }catch(SQLException e){
         throw new RuntimeException(e);
     }
+    System.out.println("Policial Alterado!");
     }
     
     public void excluir(Policial policial){
-        String sql = "delete from policial where matricula=?";
+        String sql = "delete from policial where id_policial=?";
         try{
             PreparedStatement ps = con.prepareStatement(sql);
 
@@ -73,11 +79,12 @@ public class PolicialDAO {
 
             ps.execute();
 
-            ps.close();
+            con.close();
 
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
+        System.out.println("Policial Excluido!");
     }
 
     public List<Policial> getLista(){
@@ -94,12 +101,15 @@ public class PolicialDAO {
             while(rs.next()){
                 Policial p = new Policial();
                 p.setId_policial(rs.getInt(1));
-                p.setNome(rs.getString(2));
-                p.setTitulo(rs.getString(3));
-                p.setCep(rs.getString(4));
-                p.setCidade(rs.getString(5));
-                p.setBairro(rs.getString(6));
-                p.setEstado(rs.getString(7));
+                p.setNum_id(rs.getInt(2));
+                p.setNome(rs.getString(3));
+                p.setTitulo(rs.getString(4));
+                p.setCep(rs.getString(5));
+                p.setCidade(rs.getString(6));
+                p.setBairro(rs.getString(7));
+                p.setEstado(rs.getString(8));
+                p.setDelegacia(rs.getInt(9));
+            
                 policiais.add(p);
             }
             return policiais;

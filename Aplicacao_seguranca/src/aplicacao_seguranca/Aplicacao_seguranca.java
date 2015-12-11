@@ -8,6 +8,8 @@
 package aplicacao_seguranca;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import modelo.*;
 import persistencia.*;
@@ -16,9 +18,23 @@ public class Aplicacao_seguranca {
 
     private static int menu = 0;
     private static int sair = 0;
+    private static String espera;
     
-    private static int menuCadastro = 0;
-    private static int sairCadastro = 0;
+    /*Busca de dados*/
+    private static int menuBusca = 0;
+    private static int sairBusca = 0;
+    
+    /*Policial*/
+    private static int menuPolicial = 0;
+    private static int sairPolicial = 0;
+    
+    /*Cidadao*/
+    private static int menuCidadao = 0;
+    private static int sairCidadao = 0;
+    
+    /*Ocorrencia*/
+    private static int menuOcorrencia = 0;
+    private static int sairOcorrencia = 0;
     
     /*variaveis cadastro policial*/
     private static int id_policial;
@@ -46,51 +62,9 @@ public class Aplicacao_seguranca {
     /*variaveis cadastro ocorrencia*/
     //
     
-    /*variaveis cadastro delegacia*/
-    private static int id_delegacia;
-    private static String nomeDelegacia;
-    private static String cepDelegacia;
-    private static String cidadeDelegacia;
-    private static String bairroDelegacia;
-    private static String estadoDelegacia;
-    private static int categoriaDelegacia;
+
     
-    /*variaveis cadastro categoria de delegacia*/
-    private static int id_categoriaDelegacia;
-    private static String nomeCatDel;
-    
-    /*variaveis cadastro categoria de item*/
-    private static int id_categoriaItem;
-    private static String nomeCatItem;
-    
-    /*variaveis cadastro bairro*/
-    private static int id_bairro;
-    private static String nomeBairro;
-    private static int categoria_segBairro;
-    private static String imagemBairro;
-    
-    /*variaveis cadastro categoria de objeto pessoal*/
-    private static int id_categoriaObjPessoal;
-    private static String nomeObjPessoal;
-   
-    /*variaveis cadastro categoria de ocorrencia*/
-    private static int id_categoriaOcorrencia;
-    private static String nomeCatOcorrencia;
-   
-    /*variaveis cadastro de deposito*/
-    private static int id_deposito;
-    private static String nomeDeposito;
-    private static int chefeDeposito;
-    private static String cepDeposito;
-    private static String cidadeDeposito;
-    private static String bairroDeposito;
-    private static String estadoDeposito;
-    private static int delegaciaDeposito;
-    
-    /*Busca de dados*/
-    private static int menuBusca = 0;
-    private static int sairBusca = 0;
-    
+
     public static void main(String[] args) throws IOException, InterruptedException {
         // TODO code application logic here
         Scanner scan = new Scanner(System.in);
@@ -98,10 +72,9 @@ public class Aplicacao_seguranca {
         while (sair == 0) {
             System.out.println("\t\t--------------- Aplicacao de seguranca cidade BD ---------------");
             System.out.println("\t\t Escolha uma das operações abaixo: ");
-            System.out.println("\t\t 1.Cadastrar policial");
-            System.out.println("\t\t 2.Cadastrar cidadao");
-            System.out.println("\t\t 3.Efetuar cadastro de ocorrencia");
-            //System.out.println("\t\t 4.Cadastros gerais");
+            System.out.println("\t\t 1.Menu policial");
+            System.out.println("\t\t 2.Menu cidadao");
+            System.out.println("\t\t 3.Menu ocorrencia");
             System.out.println("\t\t 4.Busca de dados no sistema");
             System.out.println("\t\t 5.Sair da aplicacao");
             menu = scan.nextInt();
@@ -111,65 +84,313 @@ public class Aplicacao_seguranca {
             switch (menu)
             {
                 case 1:
-                    System.out.println("\t\t-----------------------------------------------------------");
-                    System.out.println("\t\t                Cadastro de policial");
-                    Policial policial = new Policial();
-                    System.out.println("\t\t Insira os dados para o cadastro");
-                    System.out.println("\t\t Nome: ");
-                   
-                    break;
-                
-                case 2:
-                    System.out.println("\t\t-----------------------------------------------------------");
-                    System.out.println("\t\t                Cadastro de cidadao");
                     
-                    
-                    break;
-                case 3:
-                    System.out.println("\t\t-----------------------------------------------------------");
-                    System.out.println("\t\t                Cadastro de Ocorrencia");
-                    
-                    
-                    break;
-                      
-                case 4:
-                    while(sairBusca == 0){
+                    while (sairPolicial == 0){
                         System.out.println("\t\t-----------------------------------------------------------");
-                        System.out.println("\t\t                Cadastros Gerais");
-                        System.out.println("\n\t\t Escolha uma das operações abaixo: ");
-                        System.out.println("\t\t 1.Cadastrar delegacia");
-                        System.out.println("\t\t 2.Cadastrar categoria de delegacia");
-                        System.out.println("\t\t 3.Cadastrar categoria de item");
-                        System.out.println("\t\t 4.Cadastrar categoria de seguranca");
-                        System.out.println("\t\t 5.Cadastrar bairro");
-                        System.out.println("\t\t 6.Cadastrar categoria de objeto pessoal");
-                        System.out.println("\t\t 7.Cadastrar categoria de ocorrencia");
-                        System.out.println("\t\t 8.Cadastrar deposito");
-                        System.out.println("\t\t 9.Sair de Cadastros gerais");
-                        menuBusca = scan.nextInt();
-                        
-                        switch (menuBusca)
+                        System.out.println("\t\t                Menu policial");
+                        System.out.println("\t\t Escolha uma das opcoes abaixo:");
+                        System.out.println("\t\t 1.Cadastrar policial");
+                        System.out.println("\t\t 2.Atualizar policial");
+                        System.out.println("\t\t 3.Excluir policial");
+                        System.out.println("\t\t 4.Ver lista de policiais");
+                        System.out.println("\t\t 5.Sair do menu do policial");
+                        menuPolicial = scan.nextInt();
+
+                        Policial policial = new Policial();
+                        PolicialDAO pDAO = new PolicialDAO();
+                    
+                        switch (menuPolicial)
                         {
                             case 1:
-                                System.out.println("\t\t-----------------------------------------------------------");
-                                System.out.println("\t\t                Cadastro de delegacia");
-                                System.out.println("\t\t Insira os dados para o cadastro");
+                                
+                                System.out.println("\t\tInsira os dados a serem cadastrados");
+                                System.out.println("\t\tNum_id:");
+                                num_idPolicial = scan.nextInt();
+                                System.out.println("\t\tNome:");
+                                nomePolicial = scan.nextLine();
+                                nomePolicial = scan.nextLine();
+                                System.out.println("\t\tTitulo:");
+                                tituloPolicial = scan.nextLine();
+                                System.out.println("\t\tCep: ");
+                                cepPolicial = scan.nextLine();
+                                System.out.println("\t\tCidade:");
+                                cidadePolicial = scan.nextLine();
+                                System.out.println("\t\tBairro:");
+                                bairroPolicial = scan.nextLine();
+                                System.out.println("\t\tEstado:");
+                                estadoPolicial = scan.nextLine();
+                                System.out.println("\t\tDelegacia:");
+                                delegaciaPolicial = scan.nextInt();
+                                
+                                policial.setNum_id(num_idPolicial);
+                                policial.setNome(nomePolicial);
+                                policial.setTitulo(tituloPolicial);
+                                policial.setCep(cepPolicial);
+                                policial.setCidade(cidadePolicial);
+                                policial.setBairro(bairroPolicial);
+                                policial.setEstado(estadoPolicial);
+                                policial.setDelegacia(delegaciaPolicial);
+                                
+                                pDAO.inserir(policial);
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
+                                break;
+                                
+                            case 2:
+                                System.out.println("\t\tInsira os dados a serem alterados");
+                                System.out.println("\t\tNum_id:");
+                                num_idPolicial = scan.nextInt();
+                                System.out.println("\t\tNome:");
+                                nomePolicial = scan.nextLine();
+                                nomePolicial = scan.nextLine();
+                                System.out.println("\t\tTitulo:");
+                                tituloPolicial = scan.nextLine();
+                                System.out.println("\t\tCep: ");
+                                cepPolicial = scan.nextLine();
+                                System.out.println("\t\tCidade:");
+                                cidadePolicial = scan.nextLine();
+                                System.out.println("\t\tBairro:");
+                                bairroPolicial = scan.nextLine();
+                                System.out.println("\t\tEstado:");
+                                estadoPolicial = scan.nextLine();
+                                System.out.println("\t\tDelegacia:");
+                                delegaciaPolicial = scan.nextInt();
+                                System.out.println("\t\tInsira a Id do policial a ser atualizado: ");
+                                id_policial = scan.nextInt();
+                                
+                                policial.setNum_id(num_idPolicial);
+                                policial.setNome(nomePolicial);
+                                policial.setTitulo(tituloPolicial);
+                                policial.setCep(cepPolicial);
+                                policial.setCidade(cidadePolicial);
+                                policial.setBairro(bairroPolicial);
+                                policial.setEstado(estadoPolicial);
+                                policial.setDelegacia(delegaciaPolicial);
+                                policial.setId_policial(id_policial);
+                                
+                                pDAO.alterar(policial);
+                                
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
                                 
                                 break;
-                            case 2:
-                                System.out.println("\t\t-----------------------------------------------------------");
-                                System.out.println("\t\t                Cadastro de categoria de delegacia");
-                                System.out.println("\t\t Insira os dados para o cadastro");
-                                sairBusca = 1;
+                                
+                            case 3:
+                                System.out.println("Exclusao de dados, insira a Id do policial para retirar seu cadastro da base de dados.");
+                                System.out.println("Id: ");
+                                id_policial = scan.nextInt();
+                                
+                                policial.setId_policial(id_policial);
+                                
+                                pDAO.excluir(policial);
+                                
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
+                                
+                                break;
+                                
+                            case 4:
+                                System.out.println("Impressao dos policiais cadastrados no sistema");
+                                List<Policial> policiais = new ArrayList<>();
+                                
+                                policiais = pDAO.getLista();
+                                System.out.println("Num_id\tNome\t\tTitulo\tCep\tCidade\tBairro\tEstado\tDelegacia\tId_policial");
+                                for (int i = 0; i < policiais.size(); i++) {
+                                      policial = policiais.get(i);
+                                      System.out.println(policial.getNum_id()+"\t|"+policial.getNome()+"\t\t|"+policial.getTitulo()+"\t|"+policial.getCep()+"\t|"+policial.getCidade()+"\t|"+policial.getBairro()+"\t|"+policial.getEstado()+"\t|"+policial.getDelegacia()+"\t|"+policial.getId_policial());
+                                }
+                                espera = scan.nextLine();
+                                
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
+                                
+                                break;
+
+                            case 5:
+                                sairPolicial = 1;
+                                
+                                espera = scan.nextLine();
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
+                                
                                 break;
                         }
                     }
+                  
                     break;
-                case 6:
+                
+                case 2:
+                    
+                    while (sairCidadao == 0){
+                        System.out.println("\t\t-----------------------------------------------------------");
+                        System.out.println("\t\t                Menu cidadao");
+                        System.out.println("\t\t Escolha uma das opcoes abaixo:");
+                        System.out.println("\t\t 1.Cadastrar cidadao");
+                        System.out.println("\t\t 2.Atualizar cidadao");
+                        System.out.println("\t\t 3.Excluir cidadao");
+                        System.out.println("\t\t 4.Ver lista de cidadao");
+                        System.out.println("\t\t 5.Sair do menu do cidadao");
+
+                        menuCidadao = scan.nextInt();
+                    
+                        Cidadao cidadao = new Cidadao();
+                        CidadaoDAO cDAO = new CidadaoDAO();
+                        
+                        switch (menuCidadao)
+                        {
+                             case 1:
+                                System.out.println("\t\tInsira os dados a serem cadastrados");
+                                System.out.println("\t\tCpf:");
+                                cpfCidadao = scan.nextLine();
+                                cpfCidadao = scan.nextLine();
+                                System.out.println("\t\tNome:");
+                                nomeCidadao = scan.nextLine();
+                                System.out.println("\t\tSexo:");
+                                sexoCidadao = scan.nextLine();
+                                System.out.println("\t\tEstado Civil:");
+                                estado_civilCidadao = scan.nextLine();
+                                System.out.println("\t\tData de nascimento:");
+                                data_nascimentoCidadao = scan.nextLine();
+                                System.out.println("\t\tCep: ");
+                                cepCidadao = scan.nextLine();
+                                System.out.println("\t\tCidade:");
+                                cidadeCidadao = scan.nextLine();
+                                System.out.println("\t\tBairro:");
+                                bairroCidadao = scan.nextLine();
+                                System.out.println("\t\tEstado:");
+                                estadoCidadao = scan.nextLine();
+                                
+                                cidadao.setCpf(cpfCidadao);
+                                cidadao.setNome(nomeCidadao);
+                                cidadao.setSexo(sexoCidadao);
+                                cidadao.setEstado_civil(estado_civilCidadao);
+                                cidadao.setData_nascimento(data_nascimentoCidadao);
+                                cidadao.setCep(cepCidadao);
+                                cidadao.setCidade(cidadeCidadao);
+                                cidadao.setBairro(bairroCidadao);
+                                cidadao.setEstado(estadoCidadao);
+                                
+                                cDAO.inserir(cidadao);
+                                
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
+                                break;
+                                
+                            case 2:
+                                System.out.println("\t\tInsira os dados a serem alterados");
+                                System.out.println("\t\tCpf:");
+                                cpfCidadao = scan.nextLine();
+                                cpfCidadao = scan.nextLine();
+                                System.out.println("\t\tNome:");
+                                nomeCidadao = scan.nextLine();
+                                System.out.println("\t\tSexo:");
+                                sexoCidadao = scan.nextLine();
+                                System.out.println("\t\tEstado Civil:");
+                                estado_civilCidadao = scan.nextLine();
+                                System.out.println("\t\tData de nascimento:");
+                                data_nascimentoCidadao = scan.nextLine();
+                                System.out.println("\t\tCep: ");
+                                cepCidadao = scan.nextLine();
+                                System.out.println("\t\tCidade:");
+                                cidadeCidadao = scan.nextLine();
+                                System.out.println("\t\tBairro:");
+                                bairroCidadao = scan.nextLine();
+                                System.out.println("\t\tEstado:");
+                                estadoCidadao = scan.nextLine();
+                                System.out.println("\t\tInsira a Id do cidadao a ser atualizado:");
+                                id_cidadao = scan.nextInt();
+                                
+                                cidadao.setCpf(cpfCidadao);
+                                cidadao.setNome(nomeCidadao);
+                                cidadao.setSexo(sexoCidadao);
+                                cidadao.setEstado_civil(estado_civilCidadao);
+                                cidadao.setData_nascimento(data_nascimentoCidadao);
+                                cidadao.setCep(cepCidadao);
+                                cidadao.setCidade(cidadeCidadao);
+                                cidadao.setBairro(bairroCidadao);
+                                cidadao.setEstado(estadoCidadao);
+                                cidadao.setId_cidadao(id_cidadao);
+                                
+                                cDAO.alterar(cidadao);
+                                System.out.println("\n\n\n\n\n\n\n\n\n");    
+                                break;
+                                
+                            case 3:
+                                System.out.println("Exclusao de dados, insira a Id do cidadao para retirar seu cadastro da base de dados.");
+                                System.out.println("Id: ");
+                                id_cidadao = scan.nextInt();
+                                
+                                cidadao.setId_cidadao(id_cidadao);
+                                
+                                cDAO.excluir(cidadao);
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
+                                break;
+                            case 4:
+                                System.out.println("Impressao dos cidadaos cadastrados no sistema");
+                                List<Cidadao> cidadaos = new ArrayList<>();
+                                
+                                cidadaos = cDAO.getLista();
+                                
+                                System.out.println("Cpf\tNome\tSexo\tEstado civil\tData de nascimento\tCep\tCidade\tBairro\tEstado\tDelegacia\tId_policial");
+                                for (int i = 0; i < cidadaos.size(); i++) {
+                                      cidadao = cidadaos.get(i);
+                                      System.out.println(cidadao.getCpf()+"\t|"+cidadao.getNome()+"\t\t|"+cidadao.getSexo()+"\t|"+cidadao.getEstado_civil()+"\t|"+cidadao.getData_nascimento()+"\t|"+cidadao.getCep()+"\t|"+cidadao.getCidade()+"\t|"+cidadao.getBairro()+"\t|"+cidadao.getEstado()+"\t|"+cidadao.getId_cidadao());
+                                }
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
+                                break;
+
+                            case 5:
+                                sairCidadao = 1;
+                                System.out.println("\n\n\n\n\n\n\n\n\n");
+                                break;
+                        }
+                    }
+                    
+                    break;
+
+                case 3:
+                    /*
+                    Ocorrencia ocorrencia = new Ocorrencia();
+                    OcorrenciaDAO oDAO = new OcorrenciaDAO();
+                    */
+                    while (sairOcorrencia == 0){
+                        System.out.println("\t\t-----------------------------------------------------------");
+                        System.out.println("\t\t                Menu de Ocorrencia");
+                        System.out.println("\t\t Escolha uma das opcoes abaixo:");
+                        System.out.println("\t\t 1.Cadastrar ocorrencia");
+                        System.out.println("\t\t 2.Atualizar ocorrencia");
+                        System.out.println("\t\t 3.Excluir ocorrencia");
+                        System.out.println("\t\t 4.Ver lista de ocorrencias");
+                        System.out.println("\t\t 5.Sair do menu de ocorrencia");
+                        menuPolicial = scan.nextInt();
+                        
+                        switch (menuOcorrencia)
+                        {
+                            case 1:
+                                    
+                                break;
+                            case 2:
+
+
+                                break;
+                            case 3:
+
+                                break;
+                            case 4:
+
+                                break;
+
+
+                            case 5:
+                                sairOcorrencia = 1;
+                                break;
+                        }
+                    }
+                    
+                    break;
+             
+                case 5:
                     sair = 1;    
                     break;
             }
         }
-        System.out.println("teste");
     } 
 }

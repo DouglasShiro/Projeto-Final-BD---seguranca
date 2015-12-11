@@ -17,7 +17,7 @@ public class ConnectionFactory {
 
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/seguranca","root","DS1108");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/seguranca","root","12345");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         //} catch (ClassNotFoundException e) {
@@ -26,7 +26,6 @@ public class ConnectionFactory {
             System.out.println(e.getMessage());
         }
         
-        System.out.println("Conexão aberta.");
         
         return con;
     }
