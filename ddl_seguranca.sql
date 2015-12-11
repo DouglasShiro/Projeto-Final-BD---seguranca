@@ -189,12 +189,10 @@ CREATE TABLE ocorrencia
         policial			integer unsigned not null,
         categoria			integer unsigned not null,
         bairro				integer unsigned not null,
-        obj_pessoal			integer unsigned,
         PRIMARY KEY (id_ocorrencia),
         FOREIGN KEY (policial) REFERENCES policial(id_policial) ON DELETE RESTRICT,
         FOREIGN KEY (categoria) REFERENCES categoria_ocorrencia(id_categoria) ON DELETE RESTRICT,
-        FOREIGN KEY (bairro) REFERENCES bairro(id_bairro) ON DELETE RESTRICT,
-        FOREIGN KEY (obj_pessoal) REFERENCES objeto_pessoal(id_obj_pessoal) ON DELETE RESTRICT
+        FOREIGN KEY (bairro) REFERENCES bairro(id_bairro) ON DELETE RESTRICT
         );
         
 CREATE TABLE infrator
@@ -206,9 +204,9 @@ CREATE TABLE infrator
         FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia) ON DELETE CASCADE
         );
         
-ALTER TABLE ocorrencia
-	ADD COLUMN infrator integer unsigned, 
-    ADD FOREIGN KEY (infrator) REFERENCES infrator(infrator) ON DELETE SET NULL;
+-- ALTER TABLE ocorrencia
+	-- ADD COLUMN infrator integer unsigned, 
+	-- ADD FOREIGN KEY (infrator) REFERENCES infrator(infrator) ON DELETE SET NULL;
 
 CREATE TABLE vitima
 	(
@@ -219,9 +217,9 @@ CREATE TABLE vitima
         FOREIGN KEY (ocorrencia) REFERENCES ocorrencia(id_ocorrencia) ON DELETE CASCADE
         );
         
-ALTER TABLE ocorrencia
-	ADD COLUMN vitima integer unsigned, 
-    ADD FOREIGN KEY (vitima) REFERENCES vitima(vitima) ON DELETE SET NULL;
+-- ALTER TABLE ocorrencia
+	-- ADD COLUMN vitima integer unsigned, 
+     -- ADD FOREIGN KEY (vitima) REFERENCES vitima(vitima) ON DELETE SET NULL;
 
 CREATE TABLE objeto_furtado
 	(

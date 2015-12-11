@@ -26,10 +26,6 @@ values	('06 DP - Taguatinga', '70531-010', 'Brasilia',
         ('DPCA - Delegacia de Protecao a Crianca e ao Adolescente',
         '70829-010', 'Brasilia', 'Guara', 'DF', 10);
         
-select * from categoria_delegacia;
-delete from categoria_delegacia where id_categoria = 1;
-select * from delegacia;
-        
 insert into policial 	(num_id, nome, titulo, cep,  
 						cidade, bairro, estado, delegacia)
 values	(1111111, 'Patricia Pimenta', 'Capitao', '70321-010', 
@@ -149,6 +145,7 @@ values	('Camiseta polo', 'Camiseta vermelha com logo azul de marca', 2),
 		('Palio Uno', 'Carro branco, placa: TES 5050 e de ano 2012', 3),
         ('Carteira', 'Carteira italiana de cor preta', 1);
 
+
 insert into categoria_imagem (categoria)
 values	('JPEG de alta definição'),
 		('Bitmap de definição média'),
@@ -160,11 +157,6 @@ insert into imagem (foto, descricao, categoria)
 values	(LOAD_FILE('/home/marcelo/Pictures/BD/asaNorte'),"Mapa indicando principais vias da asa norte", 1),
 		(LOAD_FILE('/home/marcelo/Pictures/BD/asaSul'),"Mapa indicando principais vias da asa sul", 1),
 		(LOAD_FILE('/home/marcelo/Pictures/BD/lagoSul'),"Mapa indicando principais vias da lago sul", 1);
-
-select * from imagem;
-
-select * from imagem;
-select foto from imagem;
 
 insert into categoria_seguranca (nivel)
 values	('Seguro'),
@@ -181,15 +173,19 @@ values	('Acidente'),
 		('Furto'),
         ('Sequestro');
 
-insert into ocorrencia (num_ocorrencia, observacao, policial, categoria, bairro, obj_pessoal)
-values	(1111111, 'Ocorrencia sobre furto de veículos às 20h', 1, 2, 2, 3),
-		(2222222, 'Ocorrencia sobre acidente às 23h', 2, 1, 1, null),
-        (3333333, 'Ocorrencia sobre sequestro às 10h', 3, 3, 3, null);
-
+insert into ocorrencia (num_ocorrencia, observacao, policial, categoria, bairro)
+values	(1111111, 'Ocorrencia sobre furto de veículos às 20h', 1, 2, 2),
+		(2222222, 'Ocorrencia sobre acidente às 23h', 2, 1, 1),
+        (3333333, 'Ocorrencia sobre sequestro às 10h', 3, 3, 3),
+        (4444444, 'Ocorrencia sobre furto de carteira às 14h', 4, 2, 2),
+		(5555555, 'Ocorrencia sobre furto de camiseta às 15h', 5, 2, 1);
+        
 insert into infrator (infrator, ocorrencia)
 values	(1,1),
 		(2,2),
-        (3,3);
+        (3,3),
+        (2,4),
+        (3,5);
 
 insert into vitima (vitima, ocorrencia)
 values (4, 1),
@@ -197,14 +193,17 @@ values (4, 1),
        (1, 3);
        
 insert into objeto_furtado (objeto, ocorrencia)
-values	(3, 1);
-
+values	(2, 1),
+		(3, 4),
+        (1, 5);
+        
 insert into historico_ocorrencia (observacao, data_hora, ocorrencia)
 values	('Primeiro registro da noite', '2005/04/09 10:12:11', 1),
 		('Vitima abalada e inconsolável', '2006/09/11 15:22:10', 2),
         ('Infrator foi solto logo em seguida', '2005/04/09 10:12:11', 3);
 
 
+-- Cria uma tabela virtual mostrando todos os chefes de deposito, assim como seus titulos e o nome do deposito
 CREATE VIEW v_deposito
 AS SELECT policial.nome as 'Chefe do deposito', policial.titulo as 'Titulo', deposito.nome as 'Deposito'
 FROM policial inner join deposito on policial.id_policial = deposito.chefe;
@@ -224,11 +223,12 @@ CREATE PROCEDURE inserir_policial
         in v_delegacia			integer unsigned,
 		out msg					varchar(100))
 BEGIN
-	if(estado != 'DF') THEN
+	if(v_estado != 'DF') THEN
 		set msg = 'Somente policiais locais podem ser inscritos!';
 	else
         insert into policial (num_id, nome, titulo, cep, cidade, bairro, estado, delegacia)
 		values (v_num_id, v_nome, v_titulo, v_cep, v_cidade, v_bairro, v_estado, v_delegacia);
+        set msg = 'Bem vindo à Força!';
 	end if;
 END//
 
@@ -238,18 +238,15 @@ Delimiter ;
 call inserir_policial(1111,'Marcelo', 'Coronel', '70854-020', 'Brasilia', 'Asa Norte', 'GO', 1, @msg);
 select @msg;
 
-select * from telefone_policial;
 
-select * from categoria_delegacia;
-
-select * from deposito;
-
-select policial.nome as 'Chefe do deposito', policial.titulo as 'Titulo', telefone_policial.telefone
+-- Mostra o nome, titulo e o telefone do chefe do primeiro deposito
+select policial.nome as 'Chefe do deposito', policial.titulo as 'Titulo', telefone_policial.telefone as 'Telefone'
 from deposito inner join policial inner join telefone_policial
 on deposito.chefe = policial.id_policial 
 and deposito.id_deposito = 1
 and policial.id_policial = telefone_policial.id_policial;
 
+-- Mostra os nomes dos depositos e dos itens do histórico por ordem de data 
 select deposito.nome as 'Deposito',
 item.nome as 'Item', 
 historico_deposito.quantidade as 'Quantidade', 
@@ -260,6 +257,27 @@ on historico_deposito.item = item.id_item
 and historico_deposito.deposito = deposito.id_deposito 
 order by historico_deposito.data_hora;
 
+-- Mostra o nome do bairro, as fotos daquele bairro e seu nível de segurança em ordem decrescente de nível de segurança
+select bairro.nome as 'Bairro', categoria_seguranca.nivel as 'Segurança', imagem.foto as 'Foto'
+from bairro inner join categoria_seguranca inner join imagem
+on bairro.categoria_seg = categoria_seguranca.id_categoria
+and bairro.imagem = imagem.id_imagem
+order by categoria_seguranca.nivel DESC;
+
+-- Mostra todas as mulheres vitimas de algum crime e a data em que aconteceu o crime
+select cidadao.nome as 'Vitima', categoria_ocorrencia.nome as 'Tipo de crime sofrido', historico_ocorrencia.data_hora as 'Data'
+from cidadao inner join vitima inner join ocorrencia inner join historico_ocorrencia inner join categoria_ocorrencia
+on cidadao.id_cidadao = vitima.vitima and ocorrencia.id_ocorrencia = vitima.ocorrencia
+and ocorrencia.id_ocorrencia = historico_ocorrencia.ocorrencia and ocorrencia.categoria = categoria_ocorrencia.id_categoria
+where cidadao.sexo = 'F'
+order by historico_ocorrencia.data_hora;
 
 
-select * from cidadao;
+-- Mostra todos os nomes e tipos de objetos furtados e o nome dos ladrões
+select objeto_pessoal.nome as 'Objeto', categoria_objeto_pessoal.nome as 'Categoria', cidadao.nome as 'Ladrão'
+from objeto_pessoal inner join objeto_furtado inner join categoria_objeto_pessoal inner join cidadao inner join infrator inner join ocorrencia
+inner join categoria_ocorrencia
+on objeto_pessoal.categoria = categoria_objeto_pessoal.id_categoria and objeto_furtado.objeto = objeto_pessoal.id_obj_pessoal
+and objeto_furtado.ocorrencia = ocorrencia.id_ocorrencia and infrator.infrator = cidadao.id_cidadao and infrator.ocorrencia = ocorrencia.id_ocorrencia
+and categoria_ocorrencia.id_categoria = ocorrencia.categoria
+where ocorrencia.categoria = 2;
