@@ -158,6 +158,8 @@ values	(LOAD_FILE('/home/marcelo/Pictures/BD/asaNorte'),"Mapa indicando principa
 		(LOAD_FILE('/home/marcelo/Pictures/BD/asaSul'),"Mapa indicando principais vias da asa sul", 1),
 		(LOAD_FILE('/home/marcelo/Pictures/BD/lagoSul'),"Mapa indicando principais vias da lago sul", 1);
 
+select * from imagem;
+
 insert into categoria_seguranca (nivel)
 values	('Seguro'),
 		('Pouco seguro'),
@@ -265,7 +267,8 @@ and bairro.imagem = imagem.id_imagem
 order by categoria_seguranca.nivel DESC;
 
 -- Mostra todas as mulheres vitimas de algum crime e a data em que aconteceu o crime
-select cidadao.nome as 'Vitima', categoria_ocorrencia.nome as 'Tipo de crime sofrido', historico_ocorrencia.data_hora as 'Data'
+select cidadao.nome as 'Vitima', categoria_ocorrencia.nome as 'Tipo de crime sofrido', 
+historico_ocorrencia.data_hora as 'Data'
 from cidadao inner join vitima inner join ocorrencia inner join historico_ocorrencia inner join categoria_ocorrencia
 on cidadao.id_cidadao = vitima.vitima and ocorrencia.id_ocorrencia = vitima.ocorrencia
 and ocorrencia.id_ocorrencia = historico_ocorrencia.ocorrencia and ocorrencia.categoria = categoria_ocorrencia.id_categoria
@@ -277,7 +280,10 @@ order by historico_ocorrencia.data_hora;
 select objeto_pessoal.nome as 'Objeto', categoria_objeto_pessoal.nome as 'Categoria', cidadao.nome as 'Ladrão'
 from objeto_pessoal inner join objeto_furtado inner join categoria_objeto_pessoal inner join cidadao inner join infrator inner join ocorrencia
 inner join categoria_ocorrencia
-on objeto_pessoal.categoria = categoria_objeto_pessoal.id_categoria and objeto_furtado.objeto = objeto_pessoal.id_obj_pessoal
-and objeto_furtado.ocorrencia = ocorrencia.id_ocorrencia and infrator.infrator = cidadao.id_cidadao and infrator.ocorrencia = ocorrencia.id_ocorrencia
+on objeto_pessoal.categoria = categoria_objeto_pessoal.id_categoria 
+and objeto_furtado.objeto = objeto_pessoal.id_obj_pessoal
+and objeto_furtado.ocorrencia = ocorrencia.id_ocorrencia 
+and infrator.infrator = cidadao.id_cidadao 
+and infrator.ocorrencia = ocorrencia.id_ocorrencia
 and categoria_ocorrencia.id_categoria = ocorrencia.categoria
-where ocorrencia.categoria = 2;
+where categoria_ocorrencia.nome = 'Furto';
